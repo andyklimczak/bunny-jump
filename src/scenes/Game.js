@@ -4,6 +4,8 @@ import platform from '../../assets/ground_grass.png'
 import bunny_stand from '../../assets/bunny1_stand.png'
 import bunny_jump from '../../assets/bunny1_jump.png'
 import phaseJump from '../../assets/phaseJump1.ogg'
+import phaserUp2 from '../../assets/powerUp2.ogg'
+import pepsound2 from '../../assets/pepSound2.ogg'
 
 import carrot from '../../assets/carrot.png'
 import Carrot from '../game/Carrot'
@@ -23,6 +25,8 @@ export default class Game extends Phaser.Scene {
         this.load.image('carrot', carrot)
         this.load.image('bunny-jump', bunny_jump)
         this.load.audio('jump', phaseJump)
+        this.load.audio('start', phaserUp2)
+        this.load.audio('tone', pepsound2)
         this.cursors = this.input.keyboard.createCursorKeys()
     }
 
@@ -58,6 +62,7 @@ export default class Game extends Phaser.Scene {
         this.physics.add.overlap(this.player, this.carrots, this.handleCollectCarrot, undefined, this)
         const style = {color: '#000', fontSize: 24}
         this.carrotsCollectedText = this.add.text(240, 10, 'Carrots: 0', style).setScrollFactor(0).setOrigin(0.5, 0)
+        this.sound.play('start')
     }
 
     update(t, dt) {
@@ -126,6 +131,7 @@ export default class Game extends Phaser.Scene {
         this.carrotsCollected++
         const value = `Carrots: ${this.carrotsCollected}`
         this.carrotsCollectedText.text = value
+        this.sound.play('tone')
     }
 
     findBottomMostPlatform() {
